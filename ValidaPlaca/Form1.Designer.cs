@@ -53,16 +53,19 @@
             // 
             // lvPlacas
             // 
-            lvPlacas.Location = new Point(94, 175);
+            lvPlacas.FullRowSelect = true;
+            lvPlacas.GridLines = true;
+            lvPlacas.Location = new Point(73, 172);
             lvPlacas.Name = "lvPlacas";
-            lvPlacas.Size = new Size(121, 97);
+            lvPlacas.Size = new Size(168, 130);
             lvPlacas.TabIndex = 2;
             lvPlacas.UseCompatibleStateImageBehavior = false;
+            lvPlacas.View = View.List;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(94, 157);
+            label1.Location = new Point(73, 154);
             label1.Name = "label1";
             label1.Size = new Size(40, 15);
             label1.TabIndex = 3;
@@ -72,13 +75,14 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(345, 284);
+            ClientSize = new Size(345, 328);
             Controls.Add(label1);
             Controls.Add(lvPlacas);
             Controls.Add(btnValidar);
             Controls.Add(txtPlaca);
             Name = "Form1";
             Text = "Valida Placa de Carro";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }

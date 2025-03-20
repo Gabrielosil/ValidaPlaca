@@ -2,52 +2,73 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
-namespace ValidaPlaca;
-
-
-public static class Database
+namespace ValidaPlaca
 {
-    public static void SalvarPlacaDeCarro(string placa)
+    public static class Database
     {
-        string stringDeConexao = "server=localhost; port=3306; User ID=root; database=ti_113_windowsforms";
-        MySqlConnection conexao = new MySqlConnection(stringDeConexao);
-        conexao.Open();
-
-        if (conexao.State == System.Data.ConnectionState.Open)
-            Console.WriteLine("Conectado ao Banco de Dados!");
-        else
-            Console.WriteLine("Não conectado");
-
-        string query = "insert into placadecarro (Placa) values(@placa)";
-        MySqlCommand cmd = conexao.CreateCommand();
-        cmd.CommandText = query;
-        cmd.Parameters.AddWithValue("@placa", placa);
-        cmd.ExecuteNonQuery();
-        conexao.Close();
-    }
-
-
-
-    public static List<string> ListaPlacas()
-    {
-        List<string> placas = new List<string>();
-        string stringDeConexao = "Server=localhost; Port=3306; User Id=root" + "; database=ti_113_windowsforms;";
-        MySqlConnection conexao = new MySqlConnection(stringDeConexao); 
-        conexao.Open();
-
-        string query = "select * from placasdecarro"; 
-        MySqlCommand cmd = conexao.CreateCommand(); 
-        cmd.CommandText = query;
-        MySqlDataReader conteudo = cmd.ExecuteReader();
-        while (conteudo.Read())
+        public static void SalvarPlacaDeCarro(string placa)
         {
-            placas.Add(conteudo.GetString("Placa"));
+            string stringDeConexao = "Server=localhost;Port=3306;User Id=root" +
+                "; database=ti_113_windowsforms;";
+            MySqlConnection conexao = new MySqlConnection(stringDeConexao);
+            conexao.Open();
+
+            if (conexao.State == System.Data.ConnectionState.Open)
+                Console.WriteLine("Conectado ao banco de dados!");
+            else
+                Console.WriteLine("Não conectado");
+
+            string query = "insert into placadecarro (Placa) values(@placa)";
+            MySqlCommand cmd = conexao.CreateCommand();
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@placa", placa);
+            cmd.ExecuteNonQuery();
+            conexao.Close();
         }
-        return placas;
+
+        public static List<string> ListaPlacas()
+        {
+            List<string> placas = new List<string>();
+            string stringDeConexao = "Server=localhost;Port=3306;User Id=root" +
+               "; database=ti_113_windowsforms;";
+            MySqlConnection conexao = new MySqlConnection(stringDeConexao);
+            conexao.Open();
+
+            string query = "select * from placadecarro";
+            MySqlCommand cmd = conexao.CreateCommand();
+            cmd.CommandText = query;
+            MySqlDataReader conteudo = cmd.ExecuteReader();
+            while (conteudo.Read())
+            {
+                placas.Add(conteudo.GetString("Placa"));
+            }
+            return placas;
+
+        }
+
+        public static bool ExistePlaca(string placa)
+        {
+            string stringDeConexao = "Server=localhost;Port=3306;User Id=root" +
+                  "; database=ti_113_windowsforms;";
+            MySqlConnection conexao = new MySqlConnection(stringDeConexao);
+            conexao.Open();
+
+            string query = "select * from placadecarro where Placa = @placa";
+            MySqlCommand cmd = conexao.CreateCommand();
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@placa", placa);
+            MySqlDataReader conteudo = cmd.ExecuteReader();
+
+            if (conteudo.Read())
+                return true;
+            else
+                return false;
+
+        }
+
     }
 }
